@@ -57,55 +57,80 @@ _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdow
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the _____ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- _TODO: Add whitelisted IP addresses_
+Only the Jump Box Provisioner machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
+ 99.11.94.62
 
-Machines within the network can only be accessed by _____.
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+Machines within the network can only be accessed by Jump Box Provisioner
+- Which machine did you allow to access your ELK VM? What was its IP address?_
+Jump Box Provisioner 10.0.0.4
 
 A summary of the access policies in place can be found in the table below.
 
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
-|          |                     |                      |
+| Name     	| Publicly Accessible | Allowed IP Address 	|
+|----------	|---------------------	|--------------------	|
+| Jump Box 	| Yes                 	| 40.70.206.98       	|
+| Web-1    	| No                  	| 10.0.0.4         	|
+| Web-2    	| No                  	| 10.0.0.4           	|
+| Web-3    	| No                  	| 10.0.0.4           	|
+| ELK-web  	| No                  	| 10.0.0.4           	|
 
 ### Elk Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+- Free: Ansible is an open-source tool.
+- Very simple to set up and use: No special coding skills are necessary to use Ansible's playbooks.
+- Powerful: Ansible lets user model even highly complex IT workflows.
+- Flexible: User can orchestrate the entire application environment no matter where it’s deployed. Users can also customize it based on their needs.
+- Agentless: User don’t need to install any other software or firewall ports on the client systems it want to automate. User also don’t have to set up a separate management         structure.
+- Efficient: Because user don’t need to install any extra software, there’s more room for application resources on the server.
+
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
 
+- Install docker.io
+- Install pip3
+- Install Docker python module
+- Increase virtual memory
+- Download and launch a docker
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
 ![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
 
 ### Target Machines & Beats
-This ELK server is configured to monitor the following machines:
-- _TODO: List the IP addresses of the machines you are monitoring_
+ This ELK server is configured to monitor the following machines:
+      List the IP addresses of the machines you are monitoring.
+
+       | Name  	    |   	| IP Address 	|
+       |-------	    |---  |------------	|
+       | Web-1 	    |   	| 10.0.0.5   	|
+       | Web-2 	    |   	| 10.0.0.6   	|
+       | Web-3 	    |   	| 10.0.0.7   	|
 
 We have installed the following Beats on these machines:
-- _TODO: Specify which Beats you successfully installed_
-
+- filebeat
+- metricbeat
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+Filebeat - collects data about the file system such as log events, and ships them to the monitoring cluster.
+
+Metricbeat - collects metrics and statistics and ships them to the output that was specified, such as Elasticsearch or Logstash.
+
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
+
 SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
+- Copy the Playbook  file to Ansible.
+- Update the host file to include webserver and ELK.
+- Run the playbook, and navigate to Kibana to check that the installation worked as expected.
 
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
+Specific commands the user will need to run to download the playbook
 
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+- nano ansible.cfg
+- add the machine, its IP, and ansible_python_interpreter=/usr/bin/python3 to the hosts
+- Ctrl + x to exit file
+- in the folder that install-elk.yml is in, run: cp install-elk.yml /etc/ansible
+- nano install-elk.yml /etc/ansible
+- name: installing elk hosts: [your_machine]
+- Ctrl + x to exit file
+- ansible-playbook install-elk.yml
